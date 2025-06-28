@@ -19,5 +19,12 @@ export const upsertStreamUser = async (userData) => {
     }
 };
 
-// todo: do it later
-export const generateStreamToken = (userId) => {};
+export const generateStreamToken = (userId) => {
+    try {
+        //ensure user is a string
+        const userIdStr=userId.toString();
+        return streamClient.createToken(userIdStr);
+    } catch (error) {
+        console.error("Error generating Steam token:", error);
+    }
+};
