@@ -18,7 +18,7 @@ export async function signup(req,res){
         }
         const existingUser= await User.findOne({email})
             if(existingUser){
-                return res.status(400).json({message:"Email already exists, plaese use a different one"});
+                return res.status(400).json({message:"Email already exists, please use a different one"});
             }
             const idx = Math.floor(Math.random()*100) + 1; // generate a num between 1-100
             const randomAvatar=`https://avatar.iran.liara.run/public/${idx}.png`;
@@ -63,7 +63,7 @@ export async function login(req,res){
     try{
         const { email, password} = req.body;
         if(!email || !password){
-            return res.status(400).json({ message: "All fields are required "});
+            return res.status(400).json({ message: "All fields are required"});
         }
 
         const user = await User.findOne({email});
