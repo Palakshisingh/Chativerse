@@ -6,14 +6,18 @@ import CallPage from  "./pages/CallPage.jsx"
 import ChatPage from  "./pages/ChatPage.jsx"
 import OnBoardingPage from  "./pages/OnBoardingPage.jsx"
 import LoginPage from "./pages/LoginPage.jsx"
-import {toast,Toaster} from "react-hot-toast"
+import {Toaster} from "react-hot-toast"
 import { useQuery } from '@tanstack/react-query'
 import { axiosInstance } from './lib/axios.js'
 
 const App = () => {
 
-  const {data:authData ,isLoading,error} = useQuery({queryKey:["authUser"],
-
+  const {
+    data:authData ,
+    isLoading,
+    error
+  } = useQuery({
+    queryKey:["authUser"],
     queryFn: async()=> {
       const res = await axiosInstance.get("/auth/me");
       return res.data;
@@ -21,7 +25,7 @@ const App = () => {
     retry:false,
   });
 
-  console.log(data)
+   
   const authUser = authData?.user
    
 
