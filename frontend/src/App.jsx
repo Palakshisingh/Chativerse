@@ -1,4 +1,4 @@
-import { Routes,Route, Navigate } from 'react-router'
+import { Routes,Route, Navigate, data } from 'react-router'
 import HomePage from "./pages/HomePage.jsx"
 import SignUpPage from "./pages/SignUpPage.jsx"
 import NotificationsPage from  "./pages/NotificationsPage.jsx"
@@ -8,7 +8,6 @@ import OnBoardingPage from  "./pages/OnBoardingPage.jsx"
 import LoginPage from "./pages/LoginPage.jsx"
 import {toast,Toaster} from "react-hot-toast"
 import { useQuery } from '@tanstack/react-query'
-import axios from "axios"
 import { axiosInstance } from './lib/axios.js'
 
 const App = () => {
@@ -22,6 +21,7 @@ const App = () => {
     retry:false,
   });
 
+  console.log(data)
   const authUser = authData?.user
    
 
