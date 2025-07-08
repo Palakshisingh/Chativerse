@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { Codesandbox } from "lucide-react";
-import { Link } from "react-router";
+import { Link } from "react-router-dom";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
-import {signup} from "../lib/api";
+import { signup } from "../lib/api"; // Make sure this function is properly defined!
 
 const SignUpPage = () => {
   const [signupData, setSignupData] = useState({
@@ -12,12 +12,15 @@ const SignUpPage = () => {
     password: "",
   });
 
-  // const queryClient = useQueryClient()
+  const queryClient = useQueryClient();
 
-  // const {mutate:signupMutation,isPending,error } = useMutation({
-  //   mutationFn:signup,
-  //   onSuccess: () => queryClient.invalidateQueries({queryKey:["authUser"]}),
-  // });
+  const { mutate: signupMutation, isPending, error } = useMutation({
+    mutationFn: signup,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["authUser"] });
+      // Optionally redirect or show toast here
+    },
+  });
 
   const handleSignup = (e) => {
     e.preventDefault();
@@ -29,7 +32,6 @@ const SignUpPage = () => {
       className="h-screen flex items-center justify-center p-4 sm:p-6 md:p-8"
       data-theme="forest"
     >
-       
       <div className="border border-primary/25 flex flex-col lg:flex-row w-full max-w-5xl mx-auto bg-base-100 rounded-xl shadow-lg overflow-hidden">
         <div className="w-full lg:w-1/2 p-4 sm:p-8 flex flex-col">
           <div className="mb-4 flex items-center justify-start gap-2">
@@ -41,9 +43,10 @@ const SignUpPage = () => {
 
           {error && (
             <div className="alert alert-error mb-4 text-sm">
-              <span>{error.response.data.message}</span>
+              <span>{error.message}</span>
             </div>
           )}
+
           <div className="w-full">
             <form onSubmit={handleSignup}>
               <div className="space-y-4 ">
@@ -99,7 +102,7 @@ const SignUpPage = () => {
                       required
                     />
                     <p className="text-xs opacity-70 mt-1 text-base leading-relaxed">
-                      Password must be atleast 6 characters long
+                      Password must be at least 6 characters long
                     </p>
                   </div>
                   <div className="form-control">
@@ -114,15 +117,15 @@ const SignUpPage = () => {
                     </label>
                   </div>
                 </div>
-                <button className="btn btn-primary w-full" type="submit">
-                   {isPending ? (
+                <button className="btn btn-primary w-full" type="submit" disabled={isPending}>
+                  {isPending ? (
                     <>
-                    <span className="loading loading-spinner loading-xs"></span>
-                    Loading...
+                      <span className="loading loading-spinner loading-xs"></span>
+                      Loading...
                     </>
-                   ) : (
+                  ) : (
                     "Create Account"
-                   )}
+                  )}
                 </button>
 
                 <div className="text-center mt-4">
@@ -158,7 +161,6 @@ const SignUpPage = () => {
             </div>
           </div>
         </div>
-
       </div>
     </div>
   );
