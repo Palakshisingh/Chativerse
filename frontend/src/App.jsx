@@ -1,4 +1,4 @@
-import { Routes,Route, Navigate, data } from 'react-router'
+import { Routes,Route, Navigate } from 'react-router'
 import HomePage from "./pages/HomePage.jsx"
 import SignUpPage from "./pages/SignUpPage.jsx"
 import NotificationsPage from  "./pages/NotificationsPage.jsx"
@@ -10,16 +10,18 @@ import PageLoader from './components/PageLoader.jsx'
 import useAuthUser from './hooks/useAuthUser.js'
 import OnboardingPage from './pages/OnboardingPage.jsx'
 import Layout from './components/Layout.jsx'
+import { useThemeStore } from './store/useThemeStore.js'
 
 const App = () => {
   const {isLoading,authUser} = useAuthUser();
+  const {theme} = useThemeStore();
   const isAuthenticated = Boolean(authUser)
   const isOnboarded = authUser?.isOnboarded
    
   if(isLoading) return <PageLoader/>;
 
   return (
-    <div className=' h-screen' data-theme="halloween">
+    <div className=' h-screen' data-theme={theme}>
       <Routes>
         <Route path = "/" element = {
         isAuthenticated && isOnboarded ? (
