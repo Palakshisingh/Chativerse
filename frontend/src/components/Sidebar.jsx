@@ -40,7 +40,7 @@ const Sidebar = () => {
               className={`btn btn-ghost justify-start w-full gap-3 px-3 normal-case ${currentPath==="/friends" ? "btn-active" : ""}`}
             >
                 <BellIcon className="size-5 text-base-content opacity-70"/>
-                <span>Notifications</span>
+                <span>Notification</span>
             </Link>
         </nav>
         {/* USER PROFILE */}
