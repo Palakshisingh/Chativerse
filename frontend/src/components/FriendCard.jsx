@@ -48,5 +48,6 @@ export function getLanguageFlag(language) {
       />
     );
   }
+  console.warn(`No flag found for language: ${language}`);
   return null;
 }
