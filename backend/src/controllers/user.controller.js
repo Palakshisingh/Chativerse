@@ -8,9 +8,9 @@ export async function getRecommendedUsers(req,res) {
         const recommendedUsers=await User.find({
             $and:[
                 {_id: {$ne: currentUserId}}, //exclude current user
-                {$id:{$nin: currentUser.friends}}, //exclude current user's friends
+                {_id:{$nin: currentUser.friends}}, //exclude current user's friends
                 {isOnboarded: true}
-            ]
+            ],
         })
         res.status(200).json(recommendedUsers);
     } catch (error) {
@@ -40,7 +40,7 @@ export async function sendFriendRequest(req,res) {
         if(myId===recipientId){
             return res.status(400).json({message: "You can't send friend request to ypurself"});
         }
-        const recipient=await User.frindById(recipientId)
+        const recipient=await User.findById(recipientId)
         if(!recipient){
             return res.status(404).json({message:"Recipient not found"});
         }
