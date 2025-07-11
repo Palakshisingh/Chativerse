@@ -4,6 +4,10 @@ import useAuthUser from "../hooks/useAuthUser";
 import { useQuery } from "@tanstack/react-query";
 import { getStreamToken } from "../lib/api";
 
+
+///npm i stream-chat stream-chat-react   => run this command
+// npm i @stream-io/video-react-sdk    => run this al
+
 import {
   Channel,
   ChannelHeader,
