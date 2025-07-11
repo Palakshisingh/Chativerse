@@ -78,6 +78,7 @@ const ChatPage = () => {
     };
 
     initChat();
+    
   }, [tokenData, authUser, targetUserId]);
 
   const handleVideoCall = () => {
