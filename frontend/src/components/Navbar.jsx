@@ -3,7 +3,7 @@ import useAuthUser from "../hooks/useAuthUser"
 import { BellIcon, Codesandbox, LogOutIcon } from "lucide-react"
 import ThemeSelector from "./ThemeSelector"
 import useLogout from "../hooks/useLogout"
-import { getFriendRequest,sendFriendRequest } from "../lib/api"
+import { getFriendRequest } from "../lib/api"
 import {React,useEffect,useState} from "react";
 import { useQuery } from "@tanstack/react-query"
 
@@ -13,18 +13,26 @@ const Navbar = () => {
   const location = useLocation()
   const isChatPage=location.pathname?.startsWith("/chat");
 
-  const [friendRequestCount, setFriendRequestCount] = useState(0);
-  useEffect(()=>{
-    async function fetchFriendRequests(){
-      try {
-        const data = await getFriendRequest();
-        setFriendRequestCount(data.incomingRequests.length);
-      } catch (error) {
-        console.error("Error fetching friend requests:", error);
-      }
-    }
-    fetchFriendRequests();
-    },[]);
+  // const [friendRequestCount, setFriendRequestCount] = useState(0);
+  // useEffect(()=>{
+  //   async function fetchFriendRequests(){
+  //     try {
+  //       const data = await getFriendRequest();
+  //       setFriendRequestCount(data.incomingRequests.length);
+  //     } catch (error) {
+  //       console.error("Error fetching friend requests:", error);
+  //     }
+  //   }
+  //   fetchFriendRequests();
+  //   },[]);
+  const { data: friendRequests, isLoading, error } = useQuery({
+  queryKey: ['friendRequests'],
+  queryFn: getFriendRequest,
+})
+
+
+const friendRequestCount = friendRequests?.incomingRequests?.length || 0
+
 
   // const queryClient = useQueryClient();
   // const {mutate:logoutMutation} = useMutation({
