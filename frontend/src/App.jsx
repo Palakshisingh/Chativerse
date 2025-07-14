@@ -11,6 +11,7 @@ import useAuthUser from './hooks/useAuthUser.js'
 import OnboardingPage from './pages/OnboardingPage.jsx'
 import Layout from './components/Layout.jsx'
 import { useThemeStore } from './store/useThemeStore.js'
+import FriendsPage from './pages/FriendsPage.jsx'
 
 const App = () => {
   const {isLoading,authUser} = useAuthUser();
@@ -83,6 +84,7 @@ const App = () => {
             )
           }
         />
+        <Route path="/friends" element={<FriendsPage />} />
       </Routes>
 
       <Toaster/>
