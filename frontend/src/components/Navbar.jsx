@@ -31,7 +31,11 @@ const Navbar = () => {
 })
 
 
-const friendRequestCount = friendRequests?.incomingRequests?.length || 0
+const incomingCount = friendRequests?.incomingRequests?.length || 0;
+const acceptedCount = friendRequests?.acceptedRequests?.length || 0;
+
+const friendRequestCount = incomingCount + acceptedCount;
+
 
 
   // const queryClient = useQueryClient();

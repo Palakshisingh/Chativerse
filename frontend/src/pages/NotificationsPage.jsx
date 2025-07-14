@@ -2,16 +2,26 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import { getFriendRequest,acceptFriendRequest } from "../lib/api";
 import { BellIcon, ClockIcon, MessageSquareIcon, UserCheckIcon } from "lucide-react";
 import NoNotificationsFound from "../components/NoNotificationsFound";
+import { useEffect } from "react";
 
 const NotificationsPage = () => {
   const queryClient = useQueryClient();
+
+  useEffect(()=> {
+    queryClient.setQueryData(["friendRequests"],oldData => {
+      if(!oldData) return oldData;
+      return{
+        ...oldData,
+        acceptedRequests:[]
+      };
+  });
+}, [queryClient]);
+
   const {data: friendRequests, isLoading,error} = useQuery({
     queryKey: ["friendRequests"],
     queryFn: getFriendRequest,
   })
-  // console.log("Friend Requests Data:", friendRequests);
-  // console.log("Loading:", isLoading);
-  // console.log("Error:", error);
+  
   const {mutate:acceptRequestMutation,isPending} = useMutation({
     mutationFn:acceptFriendRequest,
     onSuccess: () => {
@@ -19,6 +29,16 @@ const NotificationsPage = () => {
       queryClient.invalidateQueries({queryKey: ["friends"]});
     }
   })
+
+  const handleDeleteNotification = (id) => {
+    queryClient.setQueryData(["friendRequests"], oldData => {
+      if (!oldData) return oldData;
+      return {
+        ...oldData,
+        acceptedRequests: oldData.acceptedRequests.filter(n => n._id !== id)
+      };
+    });
+  };
 
   const incomingRequests = friendRequests?.incomingRequests || []
   const acceptedRequests = friendRequests?.acceptedRequests || []
@@ -114,6 +134,12 @@ const NotificationsPage = () => {
                             <MessageSquareIcon className="h-3 w-3 mr-1" />
                             New Friend
                           </div>
+                          <button
+                            className="btn btn-outline btn-error btn-xs ml-2"
+                            onClick={() => handleDeleteNotification(notification._id)}
+                          >
+                            Delete
+                          </button>
                         </div>
                       </div>
                     </div>
