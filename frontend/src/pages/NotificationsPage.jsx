@@ -1,5 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
-import { getFriendRequest,acceptFriendRequest } from "../lib/api";
+import { getFriendRequest,acceptFriendRequest,deleteAcceptedNotification } from "../lib/api";
 import { BellIcon, ClockIcon, MessageSquareIcon, UserCheckIcon } from "lucide-react";
 import NoNotificationsFound from "../components/NoNotificationsFound";
 import { useEffect } from "react";
@@ -22,6 +22,14 @@ const NotificationsPage = () => {
     queryFn: getFriendRequest,
   })
   
+  const {mutate: deleteNotificationMutation,isPending: isDeleting} = useMutation({
+    mutationFn: deleteAcceptedNotification,
+    onSuccess: () => {
+      queryClient.invalidateQueries({queryKey: ["friendRequests"]});
+    }
+  });
+
+  
   const {mutate:acceptRequestMutation,isPending} = useMutation({
     mutationFn:acceptFriendRequest,
     onSuccess: () => {
@@ -31,13 +39,7 @@ const NotificationsPage = () => {
   })
 
   const handleDeleteNotification = (id) => {
-    queryClient.setQueryData(["friendRequests"], oldData => {
-      if (!oldData) return oldData;
-      return {
-        ...oldData,
-        acceptedRequests: oldData.acceptedRequests.filter(n => n._id !== id)
-      };
-    });
+   deleteNotificationMutation(id);
   };
 
   const incomingRequests = friendRequests?.incomingRequests || []

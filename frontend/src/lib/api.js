@@ -64,3 +64,8 @@ export async function getStreamToken() {
   const response = await axiosInstance.get("/chat/token");
   return response.data;
 }
+
+export async function deleteAcceptedNotification(notificationId) {
+  const response = await axiosInstance.delete(`/users/accepted/${notificationId}`);
+  return response.data;
+}
