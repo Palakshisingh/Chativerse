@@ -84,7 +84,13 @@ const App = () => {
             )
           }
         />
-        <Route path="/friends" element={<FriendsPage />} />
+        <Route path = "/friends" element = {isAuthenticated && isOnboarded ? (
+          <Layout showSidebar>
+            <FriendsPage/>
+          </Layout>
+        ) : (
+          <Navigate to={!isAuthenticated ? "/login" : "/onboarding"}/> 
+        )}/>
       </Routes>
 
       <Toaster/>
